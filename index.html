@@ -1,0 +1,44 @@
+
+<!doctype html>
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>Verificação de Atualizações</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<main>
+		<h1>Verificador de Atualizações do Sistema</h1>
+		<div id="status" class="status">Versão local: v1.0.0</div>
+		<button id="checkBtn">Verificar atualizações</button>
+		<div id="updates"></div>
+	</main>
+	<script type="module">
+		import { localVersion, renderAtualizacoes, checkForUpdates } from './atualizacoes.js';
+
+		const statusEl = document.getElementById('status');
+		const btn = document.getElementById('checkBtn');
+
+		renderAtualizacoes('updates');
+
+		async function runCheck() {
+			statusEl.textContent = 'Verificando...';
+			try {
+				const res = await checkForUpdates();
+				if (res.updateAvailable) {
+					statusEl.innerHTML = `Nova versão disponível: <strong>${res.remoteVersion}</strong> (sua: ${res.localVersion})<br><small>${res.remote.date || ''}</small>`;
+				} else {
+					statusEl.textContent = `Sistema atualizado (v${res.localVersion})`;
+				}
+			} catch (e) {
+				statusEl.textContent = 'Erro ao verificar: ' + e.message;
+			}
+		}
+
+		btn.addEventListener('click', runCheck);
+		window.addEventListener('load', () => { statusEl.textContent = `Versão local: v${localVersion}`; });
+	</script>
+</body>
+</html>
+
