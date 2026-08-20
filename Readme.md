@@ -58,9 +58,9 @@ VS Code: Ambiente de desenvolvimento (IDE).
 
 Agenor
 
-Gustavo
+Gustavo Mota
 
-Jonatas
+Jhonatan Yran
 
 Joao Pedro
 
